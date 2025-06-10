@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Successful! - Ryzo Assets</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Successful! &#x2705;</h1>
+        <p>Your asset has been successfully uploaded to Ryzo Assets.</p>
+
+        <div class="success-details">
+            <h3>Asset Details:</h3>
+            <p><strong>Original Name:</strong> <%= originalName %></p>
+            <p><strong>Unique ID:</strong> <code><%= uniqueName %></code></p>
+            <p><strong>MIME Type:</strong> <%= mimetype %></p>
+            <p><strong>Size:</strong> <%= (size / (1024 * 1024)).toFixed(2) %> MB</p>
+        </div>
+
+        <div class="link-section">
+            <h3>Links:</h3>
+            <p><strong>Direct Link:</strong> <a href="<%= fileUrl %>" target="_blank"><%= fileUrl %></a></p>
+            <p><strong>View Page Link:</strong> <a href="<%= viewUrl %>" target="_blank"><%= viewUrl %></a></p>
+        </div>
+
+        <div class="actions">
+            <button onclick="copyToClipboard('<%= fileUrl %>')" class="copy-btn">Copy Direct Link</button>
+            <button onclick="copyToClipboard('<%= viewUrl %>')" class="copy-btn">Copy View Link</button>
+            <a href="/" class="home-link">Upload Another File</a>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Link copied to clipboard!');
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html> 

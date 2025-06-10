@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Ryzo Assets!</h1>
+        <p>You have successfully gained access to the Ryzo Assets hosting platform.</p>
+        <p>Upload, manage, and share your files securely.</p>
+        
+        <div class="dashboard-section">
+            <h2>Upload a New Asset</h2>
+            <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" name="asset" id="assetFile" required>
+                <br><br>
+                
+                <button type="submit">Upload Asset</button>
+            </form>
+        </div>
+
+        <div class="dashboard-section">
+            <h2>Search Assets</h2>
+            <div class="search-bar">
+                <input type="text" id="searchQuery" placeholder="Search by filename or ID...">
+                <button id="searchButton">Search</button>
+            </div>
+            <div id="searchResults" class="asset-list"></div>
+        </div>
+
+        <div class="dashboard-section">
+            <h2>Recent Uploads</h2>
+            <div id="recentUploads" class="asset-list"></div>
+        </div>
+
+        <div class="actions" style="margin-top: 30px;">
+            <a href="/all-files" class="home-link">View All Files</a>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchRecentUploads();
+
+            document.getElementById('searchButton').addEventListener('click', searchAssets);
+            document.getElementById('searchQuery').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchAssets();
+                }
+            });
+
+            // Function to save API key to local storage
+            function saveApiKey(key) {
+                localStorage.setItem('uploadApiKey', key);
+            }
+
+            // Function to load API key from local storage
+            function loadApiKey() {
+                return localStorage.getItem('uploadApiKey');
+            }
+
+            // Auto-fill API key on page load
+            const apiKeyInput = document.querySelector('#uploadForm input[name="api_key"]');
+            const storedKey = loadApiKey();
+            if (apiKeyInput && storedKey) {
+                apiKeyInput.value = storedKey;
+            }
+
+            // Event listener for form submission to save API key
+            document.getElementById('uploadForm').addEventListener('submit', (event) => {
+                const apiKeyInput = document.querySelector('#uploadForm input[name="api_key"]');
+                if (apiKeyInput && apiKeyInput.value) {
+                    saveApiKey(apiKeyInput.value);
+                }
+            });
+        });
+
+        async function fetchRecentUploads() {
+            try {
+                const response = await fetch('/api/recent-assets');
+                const assets = await response.json();
+                const recentUploadsDiv = document.getElementById('recentUploads');
+                recentUploadsDiv.innerHTML = ''; // Clear previous content
+
+                if (assets.length === 0) {
+                    recentUploadsDiv.innerHTML = '<p>No recent uploads found.</p>';
+                    return;
+                }
+
+                assets.forEach(asset => {
+                    recentUploadsDiv.innerHTML += `
+                        <div class="asset-item">
+                            <p><strong>Original Name:</strong> ${asset.originalName}</p>
+                            <p><strong>Unique ID:</strong> <code>${asset.uniqueName}</code></p>
+                            <p><strong>Uploaded:</strong> ${new Date(asset.uploadDate).toLocaleString()}</p>
+                            <p><strong>Views:</strong> ${asset.views || 0} | <strong>Downloads:</strong> ${asset.downloads || 0}</p>
+                            <p><a href="/${asset.uniqueName}" target="_blank">Direct Link</a> | <a href="/${asset.uniqueName}?view=true" target="_blank">View Page</a></p>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error fetching recent uploads:', error);
+                document.getElementById('recentUploads').innerHTML = '<p class="error-message">Failed to load recent uploads.</p>';
+            }
+        }
+
+        async function searchAssets() {
+            const query = document.getElementById('searchQuery').value.trim();
+            const searchResultsDiv = document.getElementById('searchResults');
+            searchResultsDiv.innerHTML = ''; // Clear previous content
+
+            if (query === '') {
+                searchResultsDiv.innerHTML = '<p>Please enter a search query.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/search-assets?q=${encodeURIComponent(query)}`);
+                const assets = await response.json();
+
+                if (assets.length === 0) {
+                    searchResultsDiv.innerHTML = '<p>No assets found matching your query.</p>';
+                    return;
+                }
+
+                assets.forEach(asset => {
+                    searchResultsDiv.innerHTML += `
+                        <div class="asset-item">
+                            <p><strong>Original Name:</strong> ${asset.originalName}</p>
+                            <p><strong>Unique ID:</strong> <code>${asset.uniqueName}</code></p>
+                            <p><strong>Uploaded:</strong> ${new Date(asset.uploadDate).toLocaleString()}</p>
+                            <p><strong>Views:</strong> ${asset.views || 0} | <strong>Downloads:</strong> ${asset.downloads || 0}</p>
+                            <p><a href="/${asset.uniqueName}" target="_blank">Direct Link</a> | <a href="/${asset.uniqueName}?view=true" target="_blank">View Page</a></p>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error searching assets:', error);
+                searchResultsDiv.innerHTML = '<p class="error-message">Failed to perform search.</p>';
+            }
+        }
+    </script>
+</body>
+</html> 

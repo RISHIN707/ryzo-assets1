@@ -1,0 +1,30 @@
+{
+  "name": "ryzo-assets",
+  "version": "1.0.0",
+  "description": "An advanced file and video hosting website named Ryzo assets.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "file hosting",
+    "video hosting",
+    "node.js",
+    "express",
+    "mongodb"
+  ],
+  "author": "Ryzo",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.1.0",
+    "mongoose": "^8.15.1",
+    "multer": "^2.0.1",
+    "nodemon": "^3.1.10"
+  }
+}

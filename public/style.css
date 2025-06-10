@@ -1,0 +1,398 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1a1a1a; /* Dark background */
+    color: #e0e0e0; /* Light text */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #2a2a2a; /* Slightly lighter dark background for container */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+}
+
+h1 {
+    color: #4CAF50; /* Green accent for headings */
+    margin-bottom: 20px;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.asset-display {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-top: 20px;
+    border: 1px solid #444;
+}
+
+video,
+audio {
+    width: 100%;
+}
+
+.download-link,
+.home-link {
+    display: inline-block;
+    background-color: #007bff; /* Blue for links/buttons */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.download-link:hover,
+.home-link:hover {
+    background-color: #0056b3;
+}
+
+.asset-info {
+    margin-top: 30px;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+}
+
+.asset-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.asset-info a:hover {
+    text-decoration: underline;
+}
+
+/* Form styling for access key */
+.access-form {
+    margin-top: 20px;
+}
+
+.access-form input[type="password"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.access-form button {
+    background-color: #28a745; /* Green for submit button */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.access-form button:hover {
+    background-color: #218838;
+}
+
+.error-message {
+    color: #dc3545; /* Red for error messages */
+    margin-top: 10px;
+}
+
+/* New styles for advanced UI */
+.dashboard-section {
+    background-color: #333333; /* Darker background for sections */
+    border-radius: 8px;
+    padding: 25px;
+    margin-top: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    text-align: left;
+}
+
+.dashboard-section h2 {
+    color: #4CAF50;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+}
+
+.dashboard-section form,
+.dashboard-section .search-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.dashboard-section input[type="file"],
+.dashboard-section input[type="password"],
+.dashboard-section input[type="text"] {
+    background-color: #444444;
+    border: 1px solid #555555;
+    color: #e0e0e0;
+    padding: 12px;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dashboard-section button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-section button:hover {
+    background-color: #0056b3;
+}
+
+.search-bar {
+    flex-direction: row;
+}
+
+.search-bar input {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.asset-list {
+    margin-top: 20px;
+}
+
+.asset-item {
+    background-color: #3a3a3a;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.asset-item p {
+    margin: 5px 0;
+}
+
+.asset-item p strong {
+    color: #90CAF9; /* Light blue for labels */
+}
+
+.asset-item code {
+    background-color: #555;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: 'Consolas', 'monospace';
+    color: #fff;
+}
+
+.asset-item a {
+    color: #81C784; /* Light green for links */
+    text-decoration: none;
+}
+
+.asset-item a:hover {
+    text-decoration: underline;
+}
+
+/* Styles for upload success page */
+.success-details,
+.link-section {
+    background-color: #3a3a3a;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    text-align: left;
+}
+
+.success-details h3,
+.link-section h3 {
+    color: #4CAF50;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+}
+
+.success-details strong {
+    color: #90CAF9;
+}
+
+.link-section a {
+    color: #81C784;
+    text-decoration: none;
+    word-break: break-all; /* Ensures long URLs break nicely */
+}
+
+.link-section a:hover {
+    text-decoration: underline;
+}
+
+.actions {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.copy-btn {
+    background-color: #FFC107; /* Amber for copy buttons */
+    color: #212121; /* Dark text for amber background */
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.copy-btn:hover {
+    background-color: #FFA000;
+}
+
+/* Additional styles for all files page and general smoothness */
+.asset-list-container {
+    margin-top: 20px;
+    max-height: 70vh; /* Limit height to enable scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding-right: 10px; /* Space for scrollbar */
+}
+
+/* Custom scrollbar for Webkit browsers */
+.asset-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.asset-list-container::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 10px;
+}
+
+.asset-list-container::-webkit-scrollbar-thumb {
+    background: #4CAF50;
+    border-radius: 10px;
+}
+
+.asset-list-container::-webkit-scrollbar-thumb:hover {
+    background: #388E3C;
+}
+
+/* Pagination controls */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 25px;
+    margin-bottom: 25px; /* Add some space below pagination */
+}
+
+.pagination-controls button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.pagination-controls button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.pagination-controls button:hover:not(:disabled) {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.pagination-controls span {
+    color: #e0e0e0;
+    font-weight: bold;
+}
+
+/* Delete button on asset item */
+.delete-btn {
+    background-color: #dc3545; /* Red for delete */
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px; /* Space from other elements */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+/* Smooth transitions for interactive elements */
+input, button, a.home-link, .copy-btn, .delete-btn {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover effects for buttons/links */
+button:hover:not(:disabled), a.home-link:hover, .copy-btn:hover {
+    transform: translateY(-2px); /* Subtle lift effect on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* General improvements for readability */
+.container p {
+    color: #b0b0b0;
+}
+
+.container h1, .container h2 {
+    text-shadow: 0 0 8px rgba(76, 175, 80, 0.5); /* Subtle glow for headings */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .dashboard-section form,
+    .dashboard-section .search-bar {
+        flex-direction: column;
+    }
+
+    .search-bar input {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .copy-btn, .home-link,
+    .pagination-controls button, .delete-btn {
+        width: 100%;
+    }
+
+    .pagination-controls {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+} 

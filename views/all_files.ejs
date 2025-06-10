@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Assets - Ryzo Assets</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>All Hosted Assets</h1>
+        <p>Browse through all the files hosted on Ryzo Assets.</p>
+
+        <div class="asset-list-container">
+            <div id="allAssetsList" class="asset-list"></div>
+            <p id="loadingMessage">Loading assets...</p>
+            <p id="errorMessage" class="error-message" style="display:none;">Failed to load assets.</p>
+        </div>
+        
+        <div class="pagination-controls">
+            <button id="prevPage" disabled>Previous</button>
+            <span id="pageInfo">Page 1 of 1</span>
+            <button id="nextPage" disabled>Next</button>
+        </div>
+
+        <div class="actions" style="margin-top: 30px;">
+            <a href="/" class="home-link">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchAllAssets(currentPage);
+
+            document.getElementById('prevPage').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    fetchAllAssets(currentPage);
+                }
+            });
+
+            document.getElementById('nextPage').addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    fetchAllAssets(currentPage);
+                }
+            });
+        });
+
+        async function fetchAllAssets(page) {
+            const allAssetsListDiv = document.getElementById('allAssetsList');
+            const loadingMessage = document.getElementById('loadingMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            const pageInfoSpan = document.getElementById('pageInfo');
+            const prevPageBtn = document.getElementById('prevPage');
+            const nextPageBtn = document.getElementById('nextPage');
+
+            loadingMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+            allAssetsListDiv.innerHTML = '';
+            prevPageBtn.disabled = true;
+            nextPageBtn.disabled = true;
+            pageInfoSpan.textContent = `Page ${page} of ${totalPages}`;
+
+            try {
+                const response = await fetch(`/api/all-assets?page=${page}&limit=10`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const assets = data.assets;
+                totalPages = data.totalPages;
+                currentPage = data.currentPage;
+
+                loadingMessage.style.display = 'none';
+                pageInfoSpan.textContent = `Page ${currentPage} of ${totalPages}`;
+
+                if (currentPage > 1) {
+                    prevPageBtn.disabled = false;
+                }
+                if (currentPage < totalPages) {
+                    nextPageBtn.disabled = false;
+                }
+
+                if (assets.length === 0) {
+                    allAssetsListDiv.innerHTML = '<p>No assets have been uploaded yet.</p>';
+                    return;
+                }
+
+                assets.forEach(asset => {
+                    allAssetsListDiv.innerHTML += `
+                        <div class="asset-item">
+                            <p><strong>Original Name:</strong> ${asset.originalName}</p>
+                            <p><strong>Unique ID:</strong> <code>${asset.uniqueName}</code></p>
+                            <p><strong>Uploaded:</strong> ${new Date(asset.uploadDate).toLocaleString()}</p>
+                            <p><strong>Views:</strong> ${asset.views || 0} | <strong>Downloads:</strong> ${asset.downloads || 0}</p>
+                            <p><a href="/${asset.uniqueName}" target="_blank">Direct Link</a> | <a href="/${asset.uniqueName}?view=true" target="_blank">View Page</a></p>
+                            <button class="delete-btn" data-id="${asset.uniqueName}">Delete</button>
+                        </div>
+                    `;
+                });
+
+                // Re-attach event listeners for newly rendered delete buttons
+                allAssetsListDiv.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', async (event) => {
+                        if (event.target.classList.contains('delete-btn')) {
+                            const uniqueName = event.target.dataset.id;
+                            if (confirm(`Are you sure you want to delete asset with ID: ${uniqueName}? This action cannot be undone.`)) {
+                                try {
+                                    const response = await fetch(`/api/asset/${uniqueName}`, {
+                                        method: 'DELETE'
+                                    });
+                                    if (response.ok) {
+                                        alert('Asset deleted successfully!');
+                                        fetchAllAssets(currentPage); // Re-fetch current page assets
+                                    } else {
+                                        const errorData = await response.json();
+                                        alert(`Failed to delete asset: ${errorData.message || response.statusText}`);
+                                    }
+                                } catch (error) {
+                                    console.error('Error deleting asset:', error);
+                                    alert('An error occurred while trying to delete the asset.');
+                                }
+                            }
+                        }
+                    });
+                });
+
+            } catch (error) {
+                console.error('Error fetching all assets:', error);
+                loadingMessage.style.display = 'none';
+                errorMessage.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html> 

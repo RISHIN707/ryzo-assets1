@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryzo Assets - <%= title %></title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1><%= asset.originalName %></h1>
+        <p>Uploaded: <%= asset.uploadDate.toLocaleString() %></p>
+        <p>Size: <%= (asset.size / (1024 * 1024)).toFixed(2) %> MB</p>
+        <p>Views: <%= asset.views %></p>
+
+        <% if (asset.mimetype.startsWith('image/')) { %>
+            <img src="<%= fileUrl %>" alt="<%= asset.originalName %>" class="asset-display">
+        <% } else if (asset.mimetype.startsWith('video/')) { %>
+            <video controls class="asset-display">
+                <source src="<%= fileUrl %>" type="<%= asset.mimetype %>">
+                Your browser does not support the video tag.
+            </video>
+        <% } else if (asset.mimetype.startsWith('audio/')) { %>
+            <audio controls class="asset-display">
+                <source src="<%= fileUrl %>" type="<%= asset.mimetype %>">
+                Your browser does not support the audio element.
+            </audio>
+        <% } else { %>
+            <p>This file type cannot be directly displayed in the browser. You can download it:</p>
+            <a href="<%= fileUrl %>" download="<%= asset.originalName %>" class="download-link">Download File</a>
+        <% } %>
+
+        <div class="asset-info">
+            <p>Direct Link: <a href="<%= fileUrl %>" target="_blank"><%= fileUrl %></a></p>
+        </div>
+    </div>
+</body>
+</html> 

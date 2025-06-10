@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryzo Assets - <%= title %></title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ryzo Assets</h1>
+        <h2>Enter Access Key</h2>
+        <% if (error) { %>
+            <p class="error-message"><%= error %></p>
+        <% } %>
+        <form action="/authenticate-website-access" method="POST" class="access-form">
+            <input type="password" name="accessKey" placeholder="Enter Website Access Key" required>
+            <button type="submit">Unlock</button>
+        </form>
+    </div>
+</body>
+</html> 
